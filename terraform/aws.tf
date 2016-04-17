@@ -11,3 +11,22 @@ resource "aws_sqs_queue" "sqs-sns-lambda-test-queue" {
 }
 EOF*/
 }
+
+resource "aws_cloudwatch_metric_alarm" "sqs-queue-count" {
+  alarm_name = "sqs-queue-count"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods = "1"
+  metric_name = "ApproximateNumberOfMessages"
+  namespace = "AWS/SQS"
+  period = "60" // seconds
+  statistic = "Average"
+  threshold = "1"
+  alarm_description = "Fire alarm if SQS queue count >= 1"
+  alarm_actions = [
+    "${aws_sns_topic.sns-queue-topic.arn}"
+  ]
+}
+
+resource "aws_sns_topic" "sns-queue-topic" {
+  name = "sqs-sns-lambda-test-sns"
+}
