@@ -1,0 +1,33 @@
+{
+  "name": "subscribe",
+  "runtime": "nodejs4.3",
+  "description": "Serverless Lambda function for project: sqs-sns-lambda-test",
+  "customName": false,
+  "customRole": false,
+  "handler": "handler.handler",
+  "timeout": 6,
+  "memorySize": 128,
+  "authorizer": {},
+  "custom": {
+    "excludePatterns": []
+  },
+  "endpoints": [],
+  "events": [
+    {
+      "name": "sqs-sns-lambda-test",
+      "type": "sns",
+      "config": {
+        "topicName": "sqs-sns-lambda-test-sns"
+      }
+    }
+  ],
+  "environment": {
+    "SERVERLESS_PROJECT": "${project}",
+    "SERVERLESS_STAGE": "${stage}",
+    "SERVERLESS_REGION": "${region}"
+  },
+  "vpc": {
+    "securityGroupIds": [],
+    "subnetIds": []
+  }
+}

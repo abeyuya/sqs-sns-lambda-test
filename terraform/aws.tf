@@ -16,11 +16,14 @@ resource "aws_cloudwatch_metric_alarm" "sqs-queue-count" {
   alarm_name = "sqs-queue-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods = "1"
-  metric_name = "ApproximateNumberOfMessages"
+  metric_name = "ApproximateNumberOfMessagesVisible"
   namespace = "AWS/SQS"
-  period = "60" // seconds
+  period = "600" // seconds
   statistic = "Average"
   threshold = "1"
+  dimensions {
+    QueueName = "${aws_sqs_queue.sqs-sns-lambda-test-queue.name}"
+  }
   alarm_description = "Fire alarm if SQS queue count >= 1"
   alarm_actions = [
     "${aws_sns_topic.sns-queue-topic.arn}"
